@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Sửa sinh viên</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Main CSS-->
+    <link rel="stylesheet" type="text/css" href="/bootstrap-5.2.3-dist/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <!-- or -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+</head>
+
+<body onload="time()" class="app sidebar-mini rtl">
+    <%- include('../inc/nav.ejs') %>
+    <main class="app-content">
+        <div class="app-title">
+            <ul class="app-breadcrumb breadcrumb side">
+                <li class="breadcrumb-item active"><a href="#"><b>Sửa sinh viên</b></a></li>
+            </ul>
+            <span><%= msg %></span>
+            <div id="clock"></div>
+        </div>
+   
+                <form action="" method="post">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label">Tên sinh viên </label>
+                            <input class="form-control" type="text" name="tenSV" value="<%= objStudent.tenSV%>">
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label class="control-label">Giới tính</label>
+                            <select class="form-control" id="exampleSelect1" name="gioiTinh">   
+                                <% let selected=""
+                                if(String(objStudent.gioiTinh)==String("Nam")) { %>
+                                    <option <%= selected %> value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <% } else if(String(objStudent.gioiTinh)==String("Nữ")){ 
+                                        selected= "selected" %>   
+                                        <option <%= selected %> value="Nữ">Nữ</option>
+                                         <option value="Nam">Nam</option>
+                                        <% } %>                   
+                                
+                                
+                            </select>
+                            
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <label class="control-label">Ngày sinh</label>
+                            <input class="form-control" type="date" name="ngaySinh" value="<%= objStudent.ngaySinh%>">
+                        </div>
+                        
+                    </div><BR> <BR> <BR>
+                    <button type="submit" action="/edit"  class="btn btn-primary">Lưu lại</button>
+                    <a class="btn btn-cancel" data-dismiss="modal" href="/sinhVien">Hủy bỏ</a>
+                </form>
+                <BR>
+           
+<!-- hết MODAL add-->
+
+        <!-- đít -->
+        <footer class="text-center text-lg-start bg-white text-muted " style="margin-top: 220px;">
+            <!-- Copyright -->
+            <div class="text-center p-4" style="background-color: rgb(238, 127, 182);color: black;">
+                © 2023 Tác giả :
+                <a class="text-reset fw-bold" style="text-decoration: none;"
+                    href="https://zalo.me/g/rtzyfx009">Nhóm Agile - Vip bro max</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </main>
+
+
+
+
+
+
+
+    <!-- Essential javascripts for application to work-->
+    <script src="/bootstrap-5.2.3-dist/js copy/jquery-3.2.1.min.js"></script>
+    <script src="/bootstrap-5.2.3-dist/js copy/popper.min.js"></script>
+    <script src="/bootstrap-5.2.3-dist/js copy/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/bootstrap-5.2.3-dist/js copy/main.js"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="/bootstrap-5.2.3-dist/js copy/plugins/pace.min.js"></script>
+    <!-- Page specific javascripts-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <!-- Data table plugin-->
+    <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $('#sampleTable').DataTable();
+        //Thời Gian
+        function time() {
+            var today = new Date();
+            var weekday = new Array(7);
+            weekday[0] = "Chủ Nhật";
+            weekday[1] = "Thứ Hai";
+            weekday[2] = "Thứ Ba";
+            weekday[3] = "Thứ Tư";
+            weekday[4] = "Thứ Năm";
+            weekday[5] = "Thứ Sáu";
+            weekday[6] = "Thứ Bảy";
+            var day = weekday[today.getDay()];
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            nowTime = h + " giờ " + m + " phút " + s + " giây";
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+            today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+            tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+                '</span>';
+            document.getElementById("clock").innerHTML = tmp;
+            clocktime = setTimeout("time()", "1000", "Javascript");
+
+            function checkTime(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+        }
+    </script>
+    <script>
+        function deleteRow(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("myTable").deleteRow(i);
+        }
+        jQuery(function () {
+            jQuery(".trash").click(function () {
+                swal({
+                    title: "Cảnh báo",
+                    text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
+                    buttons: ["Hủy bỏ", "Đồng ý"],
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("Đã xóa thành công.!", {
+
+                            });
+                        }
+                    });
+            });
+        });
+        oTable = $('#sampleTable').dataTable();
+        $('#all').click(function (e) {
+            $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
+            e.stopImmediatePropagation();
+        });
+    </script>
+    <script>
+    function goBack() {
+    window.history.back();
+    }
+</script>
+</body>
+
+</html>
